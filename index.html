@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Riva Company</title>
+  <style>
+    /* Фон с анимацией */
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      background: linear-gradient(-45deg, #3a7bd5, #3a6073, #1f4037, #99f2c8);
+      background-size: 400% 400%;
+      animation: gradientMove 12s ease infinite;
+      color: #fff;
+    }
+    @keyframes gradientMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    .container, .site {
+      background: rgba(255,255,255,0.15);
+      backdrop-filter: blur(15px);
+      padding: 2rem;
+      border-radius: 20px;
+      width: 350px;
+      max-width: 90%;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+      text-align: center;
+      animation: fadeIn 1s ease forwards;
+      transform: translateY(30px);
+      opacity: 0;
+    }
+    @keyframes fadeIn {
+      to { transform: translateY(0); opacity: 1; }
+    }
+    h1, h2 { margin-bottom: 1rem; text-shadow: 0 0 10px rgba(0,0,0,0.4); }
+    input {
+      width: 100%; padding: 12px; margin: 10px 0;
+      border: none; border-radius: 10px; font-size: 1em;
+    }
+    button {
+      width: 100%; padding: 12px; border: none; border-radius: 10px;
+      background: linear-gradient(135deg, #3a7bd5, #3a6073);
+      color: white; font-weight: bold; font-size: 1em; cursor: pointer;
+      margin-top: 10px; transition: transform 0.2s ease, background 0.3s ease;
+    }
+    button:hover { transform: scale(1.05); background: linear-gradient(135deg, #5ea9f5, #4d8190); }
+    .toggle { margin-top: 15px; cursor: pointer; font-size: 0.9em; color: #eee; text-decoration: underline; }
+    .message { margin-top: 10px; font-size: 0.9em; color: #ffdddd; }
+    .navbar { display: flex; justify-content: center; gap: 20px; margin-bottom: 1.5rem; }
+    .nav-btn {
+      background: rgba(255,255,255,0.2); border-radius: 8px; padding: 8px 15px;
+      cursor: pointer; transition: background 0.3s ease;
+    }
+    .nav-btn:hover { background: rgba(255,255,255,0.4); }
+    .tab { display: none; animation: fadeIn 0.8s ease forwards; }
+    .tab.active { display: block; }
+    .logout { margin-top: 20px; background: linear-gradient(135deg, #ff4d4d, #d93636); }
+    .logout:hover { background: linear-gradient(135deg, #ff6b6b, #ff3b3b); }
+    .footer { margin-top: 2rem; font-size: 0.9rem; color: #ddd; }
+    @media (max-width: 500px) {
+      .container, .site { width: 95%; padding: 1.5rem; }
+      .site h1 { font-size: 1.6rem; }
+      .site p { font-size: 1rem; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Авторизация -->
+  <div class="container" id="auth-box">
+    <h2 id="form-title">Вход</h2>
+    <form id="auth-form" onsubmit="handleAuth(event)">
+      <input type="text" id="name" placeholder="Имя" style="display:none;">
+      <input type="email" id="email" placeholder="Email" required>
+      <input type="password" id="password" placeholder="Пароль" required minlength="4">
+      <button type="submit" id="auth-btn">Войти</button>
+    </form>
+    <div class="toggle" id="toggle-text" onclick="toggleMode()">Нет аккаунта? Зарегистрироваться</div>
+    <div class="message" id="message"></div>
+  </div>
+
+  <!-- Сайт -->
+  <div class="site" id="site-box" style="display:none;">
+    <div class="navbar">
+      <div class="nav-btn" onclick="showTab('home')">🏠 <span id="nav-home">Главная</span></div>
+      <div class="nav-btn" onclick="showTab('coop')">🤝 <span id="nav-coop">Сотрудничество</span></div>
+      <div class="nav-btn" onclick="showTab('lang')">🌍 <span id="nav-lang">Язык</span></div>
+    </div>
+
+    <!-- Главная -->
+    <div id="home" class="tab active">
+      <h1 id="title-main">Riva Company</h1>
+      <p id="desc-main">🚀 Мы занимаемся созданием современных сайтов для бизнеса и частных клиентов.</p>
+      <p id="price-main"><strong>💵 Стоимость: 1 сайт — всего 5 долларов!</strong></p>
+      <p id="design-main">🎨 Гарантируем стильный дизайн, адаптацию под телефон и высокую скорость работы.</p>
+      <div class="footer">
+        📩 <span id="contact">Связь:</span> 
+        <a href="https://t.me/BluePhantom_1L" target="_blank" style="color:#fff; text-decoration:underline;">@BluePhantom_1L</a>
+      </div>
+    </div>
+
+    <!-- Сотрудничество -->
+    <div id="coop" class="tab">
+      <h1 id="coop-title">Сотрудничество с нами</h1>
+      <p id="coop-rules">📌 Наши правила просты: работать честно и качественно.</p>
+      <p id="coop-salary">💵 Зарплата: <strong>2 доллара</strong> за выполненный заказ.</p>
+      <p id="coop-contact">📩 Для связи используйте Telegram:</p>
+      <a href="https://t.me/BluePhantom_1L" target="_blank" style="color:#fff; text-decoration:underline;">@BluePhantom_1L</a>
+    </div>
+
+    <!-- Язык -->
+    <div id="lang" class="tab">
+      <h1>🌍 Language / Язык / Dil</h1>
+      <button onclick="setLang('ru')">🇷🇺 Русский</button>
+      <button onclick="setLang('en')">🇬🇧 English</button>
+      <button onclick="setLang('az')">🇦🇿 Azərbaycan</button>
+    </div>
+
+    <button class="logout" onclick="logout()" id="logout-btn">Выйти</button>
+  </div>
+
+  <script>
+    let mode = "login";
+    let currentLang = localStorage.getItem("riva_lang") || "ru";
+
+    const translations = {
+      ru: {
+        login: "Вход",
+        register: "Регистрация",
+        loginBtn: "Войти",
+        registerBtn: "Зарегистрироваться",
+        toggleToReg: "Нет аккаунта? Зарегистрироваться",
+        toggleToLog: "Уже есть аккаунт? Войти",
+        navHome: "Главная",
+        navCoop: "Сотрудничество",
+        navLang: "Язык",
+        mainDesc: "🚀 Мы занимаемся созданием современных сайтов для бизнеса и частных клиентов.",
+        mainPrice: "💵 Стоимость: 1 сайт — всего 5 долларов!",
+        mainDesign: "🎨 Гарантируем стильный дизайн, адаптацию под телефон и высокую скорость работы.",
+        contact: "Связь:",
+        coopTitle: "Сотрудничество с нами",
+        coopRules: "📌 Наши правила просты: работать честно и качественно.",
+        coopSalary: "💵 Зарплата: 2 доллара за выполненный заказ.",
+        coopContact: "📩 Для связи используйте Telegram:",
+        logout: "Выйти"
+      },
+      en: {
+        login: "Login",
+        register: "Register",
+        loginBtn: "Login",
+        registerBtn: "Sign Up",
+        toggleToReg: "No account? Register",
+        toggleToLog: "Already have an account? Login",
+        navHome: "Home",
+        navCoop: "Cooperation",
+        navLang: "Language",
+        mainDesc: "🚀 We create modern websites for businesses and individuals.",
+        mainPrice: "💵 Price: 1 website — only $5!",
+        mainDesign: "🎨 Stylish design, mobile-friendly, and fast performance guaranteed.",
+        contact: "Contact:",
+        coopTitle: "Cooperation with us",
+        coopRules: "📌 Our rules are simple: work honestly and with quality.",
+        coopSalary: "💵 Salary: $2 per completed project.",
+        coopContact: "📩 Contact us on Telegram:",
+        logout: "Logout"
+      },
+      az: {
+        login: "Giriş",
+        register: "Qeydiyyat",
+        loginBtn: "Daxil ol",
+        registerBtn: "Qeydiyyatdan keç",
+        toggleToReg: "Hesab yoxdur? Qeydiyyatdan keçin",
+        toggleToLog: "Artıq hesabınız var? Daxil olun",
+        navHome: "Ana səhifə",
+        navCoop: "Əməkdaşlıq",
+        navLang: "Dil",
+        mainDesc: "🚀 Biz biznes və şəxsi müştərilər üçün müasir saytlar yaradırıq.",
+        mainPrice: "💵 Qiymət: 1 sayt — cəmi 5 dollar!",
+        mainDesign: "🎨 Gözəl dizayn, mobil uyğunluq və sürətli işləmə zəmanəti.",
+        contact: "Əlaqə:",
+        coopTitle: "Bizimlə əməkdaşlıq",
+        coopRules: "📌 Qaydalarımız sadədir: dürüst və keyfiyyətli işləmək.",
+        coopSalary: "💵 Maaş: hər sifariş üçün 2 dollar.",
+        coopContact: "📩 Telegram vasitəsilə əlaqə:",
+        logout: "Çıxış"
+      }
+    };
+
+    function applyLang() {
+      const t = translations[currentLang];
+      document.getElementById("form-title").textContent = mode === "login" ? t.login : t.register;
+      document.getElementById("auth-btn").textContent = mode === "login" ? t.loginBtn : t.registerBtn;
+      document.getElementById("toggle-text").textContent = mode === "login" ? t.toggleToReg : t.toggleToLog;
+      document.getElementById("nav-home").textContent = t.navHome;
+      document.getElementById("nav-coop").textContent = t.navCoop;
+      document.getElementById("nav-lang").textContent = t.navLang;
+      document.getElementById("desc-main").textContent = t.mainDesc;
+      document.getElementById("price-main").textContent = t.mainPrice;
+      document.getElementById("design-main").textContent = t.mainDesign;
+      document.getElementById("contact").textContent = t.contact;
+      document.getElementById("coop-title").textContent = t.coopTitle;
+      document.getElementById("coop-rules").textContent = t.coopRules;
+      document.getElementById("coop-salary").textContent = t.coopSalary;
+      document.getElementById("coop-contact").textContent = t.coopContact;
+      document.getElementById("logout-btn").textContent = t.logout;
+    }
+
+    function setLang(lang) {
+      currentLang = lang;
+      localStorage.setItem("riva_lang", lang);
+      applyLang();
+    }
+
+    function toggleMode() {
+      const nameField = document.getElementById("name");
+      if (mode === "login") {
+        mode = "register";
+        nameField.style.display = "block";
+        nameField.setAttribute("required", "true");
+      } else {
+        mode = "login";
+        nameField.style.display = "none";
+        nameField.removeAttribute("required");
+      }
+      applyLang();
+    }
+
+    function handleAuth(event) {
+      event.preventDefault();
+      const name = document.getElementById("name").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value.trim();
+      const message = document.getElementById("message");
+      let users = JSON.parse(localStorage.getItem("riva_users") || "[]");
+
+      if (mode === "register") {
+        if (users.find(u => u.email === email)) {
+          message.textContent = "Email уже зарегистрирован!";
+          return;
+        }
+        users.push({ name, email, password });
+        localStorage.setItem("riva_users", JSON.stringify(users));
+        message.textContent = "Регистрация успешна!";
+        toggleMode();
+      } else {
+        const user = users.find(u => u.email === email && u.password === password);
+        if (user) {
+          localStorage.setItem("riva_logged", JSON.stringify(user));
+          showSite();
+        } else {
+          message.textContent = "Неверный email или пароль!";
+        }
+      }
+    }
+
+    function showSite() {
+      document.getElementById("auth-box").style.display = "none";
+      document.getElementById("site-box").style.display = "block";
+      applyLang();
+    }
+
+    function logout() {
+      localStorage.removeItem("riva_logged");
+      document.getElementById("auth-box").style.display = "block";
+      document.getElementById("site-box").style.display = "none";
+    }
+
+    function showTab(tabId) {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.getElementById(tabId).classList.add('active');
+    }
+
+    window.onload = () => {
+      const logged = JSON.parse(localStorage.getItem("riva_logged"));
+      if (logged) { showSite(); }
+      applyLang();
+    };
+  </script>
+</body>
+</html>
